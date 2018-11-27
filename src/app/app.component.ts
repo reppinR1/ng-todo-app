@@ -13,9 +13,9 @@ interface Todo {
     <button (click)="addTodo()" [disabled]="!inputValue">Add</button>
     <ul>
       <li *ngFor="let todo of todos">
-        <span>{{ todo.content }} </span>
-        <button> Toggle </button>
-        <button (click)="removeTodo(todo.id)"> Remove </button>
+        <span [class.completed]="todo.completed">{{ todo.content }} </span>
+        <button (click)="toggleTodo(todo.id)">Toggle</button>
+        <button (click)="removeTodo(todo.id)">Remove</button>
       </li>
     </ul>
   `,
@@ -23,6 +23,10 @@ interface Todo {
     `
       ul {
         list-style: none;
+      }
+
+      .completed {
+        text-decoration: line-through;
       }
     `
   ]
@@ -53,6 +57,15 @@ export class AppComponent {
   removeTodo(id: number) {
     this.todos = this.todos.filter(todo => {
       return todo.id !== id;
+    });
+  }
+
+  toggleTodo(id: number) {
+    this.todos = this.todos.map(todo => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
     });
   }
 }
