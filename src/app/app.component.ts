@@ -12,7 +12,11 @@ interface Todo {
     <input [(ngModel)]="inputValue" (keydown.enter)="addTodo()" />
     <button (click)="addTodo()" [disabled]="!inputValue">Add</button>
     <ul>
-      <li *ngFor="let todo of todos">{{ todo.content }}</li>
+      <li *ngFor="let todo of todos">
+        <span>{{ todo.content }} </span>
+        <button> Toggle </button>
+        <button (click)="removeTodo(todo.id)"> Remove </button>
+      </li>
     </ul>
   `,
   styles: [
@@ -44,5 +48,11 @@ export class AppComponent {
       completed: false
     });
     this.inputValue = '';
+  }
+
+  removeTodo(id: number) {
+    this.todos = this.todos.filter(todo => {
+      return todo.id !== id;
+    });
   }
 }
